@@ -1,5 +1,6 @@
 import sys
 import os
+import webbrowser
 
 ruta_actual = os.path.dirname(__file__)
 ruta_proyecto = os.path.abspath(os.path.join(ruta_actual, '..'))
@@ -50,10 +51,10 @@ class Interfaz():
         barra_menu = tk.Menu(self.root)
         menu_archivo = tk.Menu(barra_menu)
         barra_menu.add_cascade(label='Archivo', menu=menu_archivo)
-        menu_archivo.add_command(label='Inicialización', command=None)
+        menu_archivo.add_command(label='Inicialización', command=self.inicializacion)
         menu_archivo.add_command(label='Cargar Archivo', command=self.cargar_archivo_xml)
         menu_archivo.add_command(label='Generar Archivo', command=self.generar_archivo)
-        menu_archivo.add_command(label='Ayuda', command=None)
+        menu_archivo.add_command(label='Ayuda', command=self.ayuda)
         menu_archivo.add_command(label='Salir', command=self.salir)
         
         menu_gestiones = tk.Menu(barra_menu)
@@ -64,7 +65,39 @@ class Interfaz():
         
         self.root.config(menu=barra_menu)
         self.root.mainloop()
+    
+    def inicializacion(self):
+        self.file_path = ''
+        self.lista_drones.clear()
+        self.lista_sistemas_mensajes.clear()
+        self.lista_drones_mensajes.clear()
+        self.text_box_agregar_dron = None
+        self.tree_view = None
+        self.gestion_drones_ventana = None
+        self.tree_view_mensaje = None
+        self.tree_view_instruccion = None
         
+        self.lista_sistema_drones.clear()
+        self.lista_msg.clear()
+        self.lista_msg_process.clear()
+        
+        messagebox.showinfo('Inicialización', 'Se ha inicializado el programa correctamente.')
+    
+    def ayuda(self):
+        messagebox.showinfo('Ayuda', """
+    Nombre Completo: Andres Alejandro Quezada Cabrera
+    Carné: 202200174
+    Curso y Sección: IPC2 - Sección "D"
+    Carrera: Ingenieria en Ciencias y Sistemas
+    USAC de Guatemala 4to. Semestre del 2023""")
+        
+        ruta_pdf = os.path.join("doc", 'Manual Técnico.pdf')
+        if os.path.exists(ruta_pdf):
+            webbrowser.open(ruta_pdf, new=2)
+        else:
+            print("El archivo PDF no se encuentra en la ruta especificada.")
+    
+    
     def salir(self):
         self.root.destroy()
     
