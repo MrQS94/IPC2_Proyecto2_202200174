@@ -152,12 +152,6 @@ class ListaDoble():
     def get_size(self):
         return self.size
     
-    def display(self):
-        actual = self.head
-        while actual:
-            print(actual.dron, ' - ', actual.altura, end=" -> ")
-            actual = actual.next
-            
     def is_empty(self):
         return self.head is None or self.size == 0
         
@@ -224,22 +218,11 @@ class ListaAlturas():
     
     def get_alturas(self, dron_buscado):
         actual = self.head
-
         while actual is not None:
             if actual.tipo_dato.dron == dron_buscado:
                 return actual.tipo_dato
             actual = actual.next
-
         return None
-    
-    def display(self):
-        print("TOTAL ALTURAS", self.size)
-        print("")
-
-        actual = self.head
-        while actual is not None:
-            print("Altura:", actual.tipo_dato.altura, "| Valor:", actual.tipo_dato.valor)
-            actual = actual.next
 
 class ListaSistemaDrones():
     def __init__(self):
@@ -285,17 +268,6 @@ class ListaSistemaDrones():
             del actual
         self.size = 0
         print("-> Lista sistema eliminada...")
-    
-    def display(self):
-        print("TOTAL SISTEMAS:", self.size)
-        print("")
-
-        actual = self.head
-        while actual is not None:
-            print("Nombre:", actual.tipo_dato.nombre, "| Altura maxima:", actual.tipo_dato.altura_max, "| Cantidad drones:", actual.tipo_dato.cantidad)
-            print("------ Contenido ------")
-            actual.tipo_dato.contenido.display()
-            actual = actual.next
 
 class ListaContenido():
     def __init__(self):
@@ -334,16 +306,6 @@ class ListaContenido():
                 return actual.tipo_dato
             actual = actual.next
         return None
-    
-    def display(self):
-        print("TOTAL CONTENIDOS:", self.size)
-        print("")
-        actual = self.head
-        while actual is not None:
-            print("Dron:", actual.tipo_dato.dron)
-            print("------ Alturas ------")
-            actual.tipo_dato.alturas.display()
-            actual = actual.next
 
 class ListaInstruccion():
     def __init__(self):
@@ -376,14 +338,6 @@ class ListaInstruccion():
             return valor_actual
         else:
             raise StopIteration
-        
-    def display(self):
-        print("TOTAL INSTRUCCIONES", self.size)
-        print("")
-        actual = self.head
-        while actual is not None:
-            print("Dron:", actual.tipo_dato.dron, "| Instruccion:", actual.tipo_dato.instruccion)
-            actual = actual.next
 
 class ListaMensaje():
     def __init__(self):
@@ -438,17 +392,7 @@ class ListaMensaje():
             del actual
         self.size = 0
         print("-> Lista Mensajes eliminada...")
-    
-    def display(self):
-        print("TOTAL Mensajes", self.size)
-        print("")
-        actual = self.head
-        while actual is not None:
-            print("Nombre:", actual.tipo_dato.nombre_msg, "| Sistema:", actual.tipo_dato.sistema)
-            print("------- Instrucciones -------")
-            actual.tipo_dato.instrucciones.display()
-            actual = actual.next
-
+        
 class ListaMovimiento:
     def __init__(self):
         self.head = None
@@ -585,19 +529,10 @@ class ListaMovimiento:
     
     def complete_esperar(self, dron_buscar, altura, indice):
         tiempo = int(self.get_mayor_tiempo())
-
         for tiempos in range(1, tiempo+1):
             if self.valide_posicion(tiempos, dron_buscar) is False:
                 nuevo_movimiento = Movimientos("Esperar", tiempos, dron_buscar,altura, indice)
                 self.append_sorted(nuevo_movimiento)
-
-    def display(self):
-        print("TOTAL MOVIMIENTOS:", self.size)
-        print("")
-        actual = self.head
-        while actual is not None:
-            print("Tiempo:", actual.tipo_dato.tiempo, "| MOVIMIENTO:", actual.tipo_dato.movimiento, "\t| Dron:", actual.tipo_dato.dron, "| No. In:", actual.tipo_dato.num_instruccion)
-            actual = actual.next
 
 class ListaMsgProcess:
     def __init__(self):
@@ -686,7 +621,6 @@ class ListaMsgProcess:
             mensaje_recibido.text = msg_found.mensaje
             
             instrucciones = ET.SubElement(mensaje, 'instrucciones')
-            
             for i in range(1, int(msg_found.tiempo) + 1):
                 tiempo = ET.SubElement(instrucciones, 'tiempo', valor=f'{i}')
                 acciones = ET.SubElement(tiempo, 'acciones')
